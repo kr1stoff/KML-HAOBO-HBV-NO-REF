@@ -1,0 +1,38 @@
+conda:
+  python: python3.12
+  fastqc: basic
+  multiqc: basic
+  fastp: basic2
+  seqtk: basic
+  bwa: basic
+  samtools: basic
+  bedtools: basic2
+  bcftools: basic
+  blastn: basic
+  tantan: basic2
+  ivar: basic2
+  vt: basic2
+
+database:
+  # bwa index 建库
+  ref: /data/mengxf/GitHub/KML-HAOBO-HBV-NO-REF/wf-hb-hbv-no-ref/assets/sequences/D00330.1.fasta
+  # makeblastdb 建库
+  blastn: /data/mengxf/GitHub/KML-HAOBO-HBV-NO-REF/wf-hb-hbv-no-ref/assets/blastn/HBV_pan_reference.fasta
+  primer_fa: /data/mengxf/GitHub/KML-HAOBO-HBV-NO-REF/wf-hb-hbv-no-ref/assets/primer.fasta
+
+threads:
+  low: 4
+  medium: 8
+  high: 16
+
+custom:
+  accession_type:
+    X51970.1: A
+    D00330.1: B
+    AB033550.1: C
+    U95551.1: D
+    X75657.1: E
+    X75658.1: F
+    KR230749.1: G
+    AY090460.1: H
+  sequences_dir: /data/mengxf/GitHub/KML-HAOBO-HBV-NO-REF/wf-hb-hbv-no-ref/assets/sequences

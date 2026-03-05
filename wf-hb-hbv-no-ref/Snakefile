@@ -1,0 +1,39 @@
+import pandas as pd
+from snakemake.utils import validate
+
+
+# 加载配置文件
+configfile: workflow.source_path("config.yaml")
+
+
+# 验证配置文件
+validate(config, "config.schema.yaml")
+
+
+# 定义 shell 环境
+shell.executable("/bin/bash")
+shell.prefix("set +eu;")
+
+
+# 读取样本表
+samples_df = pd.read_table(
+    config["samples_tsv"], header=None, names=["sample", "fq1", "fq2"]
+)
+samples = samples_df["sample"].tolist()
+
+
+# 定义最终输出结果
+rule all:
+    input:
+        "qc/multiqc",
+        "qc/fastp/fq_summary.tsv",
+        "typing/typing_summary.tsv",
+        "align/bam_summary.tsv",
+
+
+# 导入公共规则
+include: "rules/rawdata.smk"
+include: "rules/fastqc.smk"
+include: "rules/typing.smk"
+include: "rules/prepare.smk"
+include: "rules/map.smk"
