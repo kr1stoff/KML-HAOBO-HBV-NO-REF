@@ -63,6 +63,14 @@ properties:
         type: integer
         minimum: 1
         description: 高线程任务
+  resources:
+    type: object
+    properties:
+      freebayes_jobs:
+        type: integer
+        minimum: 1
+        default: 10
+        description: freebayes 并行线程数, 默认 10
   custom:
     type: object
     properties:

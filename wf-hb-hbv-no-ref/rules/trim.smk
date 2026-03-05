@@ -1,13 +1,13 @@
-rule trim_primer_ivar:
+rule ivar_trim:
     input:
         bam=rules.map_bwa_mem.output,
         bed=rules.prepare_make_primer_bed.output.bed,
     output:
         temp("trim-primer/{sample}.trimmed.unsorted.bam"),
     log:
-        ".log/trim_primer/{sample}.trim_primer_ivar.log",
+        ".log/trim_primer/{sample}.ivar_trim.log",
     benchmark:
-        ".log/trim_primer/{sample}.trim_primer_ivar.bm"
+        ".log/trim_primer/{sample}.ivar_trim.bm"
     threads: config["threads"]["low"]
     conda:
         config["conda"]["ivar"]
@@ -18,16 +18,16 @@ rule trim_primer_ivar:
         """
 
 
-rule trim_primer_ivar_sort_and_index:
+rule trim_samtools_sort_and_index1:
     input:
-        rules.trim_primer_ivar.output,
+        rules.ivar_trim.output,
     output:
-        bam="trim-primer/{sample}.trimmed.bam",
-        bai="trim-primer/{sample}.trimmed.bam.bai",
+        bam=temp("trim-primer/{sample}.trimmed.bam"),
+        bai=temp("trim-primer/{sample}.trimmed.bam.bai"),
     log:
-        ".log/trim_primer/{sample}.trim_primer_ivar_sort_and_index.log",
+        ".log/trim_primer/{sample}.trim_samtools_sort_and_index1.log",
     benchmark:
-        ".log/trim_primer/{sample}.trim_primer_ivar_sort_and_index.bm"
+        ".log/trim_primer/{sample}.trim_samtools_sort_and_index1.bm"
     threads: config["threads"]["low"]
     conda:
         config["conda"]["samtools"]
@@ -47,16 +47,16 @@ rule trim_primer_ivar_sort_and_index:
         """
 
 
-rule trim_primer_bedtools_intersect:
+rule trim_bedtools_intersect:
     input:
-        bam=rules.trim_primer_ivar_sort_and_index.output.bam,
+        bam=rules.trim_samtools_sort_and_index1.output.bam,
         bed=rules.prepare_primer_bedtools_slop.output.primer,
     output:
         temp("trim-primer/{sample}.filtered.unsorted.bam"),
     log:
-        ".log/trim_primer/{sample}.trim_primer_bedtools_intersect.log",
+        ".log/trim_primer/{sample}.trim_bedtools_intersect.log",
     benchmark:
-        ".log/trim_primer/{sample}.trim_primer_bedtools_intersect.bm"
+        ".log/trim_primer/{sample}.trim_bedtools_intersect.bm"
     threads: config["threads"]["low"]
     conda:
         config["conda"]["bedtools"]
@@ -64,13 +64,13 @@ rule trim_primer_bedtools_intersect:
         "bedtools intersect -v -a {input.bam} -b {input.bed} > {output} 2> {log}"
 
 
-use rule typing_samtools_sort_and_index as trim_primer_sort_and_index with:
+use rule typing_samtools_sort_and_index as trim_samtools_sort_and_index2 with:
     input:
-        rules.trim_primer_bedtools_intersect.output,
+        rules.trim_bedtools_intersect.output,
     output:
         bam="trim-primer/{sample}.filtered.bam",
         bai="trim-primer/{sample}.filtered.bam.bai",
     log:
-        ".log/trim_primer/{sample}.trim_primer_sort_and_index.log",
+        ".log/trim_primer/{sample}.trim_samtools_sort_and_index2.log",
     benchmark:
-        ".log/trim_primer/{sample}.trim_primer_sort_and_index.bm"
+        ".log/trim_primer/{sample}.trim_samtools_sort_and_index2.bm"

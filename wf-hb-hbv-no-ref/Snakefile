@@ -26,9 +26,8 @@ samples = samples_df["sample"].tolist()
 rule all:
     input:
         "qc/multiqc",
-        "qc/fastp/fq_summary.tsv",
-        "typing/typing_summary.tsv",
-        "align/bam_summary.tsv",
+        "upload/panel-qc-summary.xlsx",
+        "upload/all-vars-summary.tsv",
 
 
 # 导入公共规则
@@ -37,3 +36,7 @@ include: "rules/fastqc.smk"
 include: "rules/typing.smk"
 include: "rules/prepare.smk"
 include: "rules/map.smk"
+include: "rules/trim.smk"
+include: "rules/lowcov.smk"
+include: "rules/variant.smk"
+include: "rules/summary.smk"

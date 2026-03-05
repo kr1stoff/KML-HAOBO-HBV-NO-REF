@@ -76,11 +76,12 @@ rule typing_bedtools_lowcov_mask:
     conda:
         config["conda"]["bedtools"]
     params:
-        lowdepth="100",
+        depth_threshold=100,
+        length_threshold=20,
     shell:
         """
         bedtools genomecov -bga -ibam {input.bam} > {output.genomecov} 2> {log}
-        awk '$4<{params.lowdepth}' {output.genomecov} | bedtools merge > {output.lowcov} 2>> {log}
+        awk '$4<{params.depth_threshold}' {output.genomecov} | bedtools merge | awk '$3-$2>{params.length_threshold}' > {output.lowcov} 2>> {log}
         bedtools maskfasta -fi {input.ref} -bed {output.lowcov} -fo {output.mask} 2>> {log}
         """
 

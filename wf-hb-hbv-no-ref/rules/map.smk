@@ -97,7 +97,7 @@ rule map_bam_stats:
         "../scripts/bam_stats.py"
 
 
-rule map_bam_stats_summary:
+rule bam_stats_summary:
     input:
         expand("align/{sample}.stats.csv", sample=samples),
     output:
@@ -116,7 +116,7 @@ rule map_samtools_bedcov_target:
     input:
         bam=rules.map_samtools_sort_and_index.output.bam,
         bed=rules.prepare_make_target_bed.output,
-        index=rules.map_samtools_index.output,
+        index=rules.map_samtools_sort_and_index.output.bai,
     output:
         "align/{sample}.bam.target.bedcov",
     benchmark:
