@@ -34,7 +34,7 @@ rule all_vars_sheets:
 rule all_vars_summary:
     input:
         rules.all_vars_sheets.output,
-        config["database"]["known_sites"],
+        f"{workflow.basedir}/assets/known_sites.csv",
     output:
         "upload/all-vars-summary.tsv",
         "upload/all-vars-summary.xlsx",

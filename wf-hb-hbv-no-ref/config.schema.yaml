@@ -38,15 +38,6 @@ properties:
         type: string
       vt:
         type: string
-  database:
-    type: object
-    properties:
-      ref:
-        type: string
-        description: 参考基因组文件路径
-      blastn:
-        type: string
-        description: BLAST 数据库文件路径
   threads:
     type: object
     description: 线程配置

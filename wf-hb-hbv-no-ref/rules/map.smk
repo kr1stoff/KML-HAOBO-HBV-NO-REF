@@ -23,8 +23,8 @@ use rule typing_samtools_sort_and_index as map_samtools_sort_and_index with:
     input:
         rules.map_bwa_mem.output,
     output:
-        bam="align/{sample}.bam",
-        bai="align/{sample}.bam.bai",
+        bam=temp("align/{sample}.bam"),
+        bai=temp("align/{sample}.bam.bai"),
     benchmark:
         ".log/align/{sample}.map_samtools_sort_and_index.bm"
     log:

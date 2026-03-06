@@ -60,7 +60,7 @@ rule prepare_extract_lcr_bed:
 
 rule prepare_bwa_mem_primer:
     input:
-        primer=config["database"]["primer_fa"],
+        primer=f"{workflow.basedir}/assets/primer.fasta",
         ref=rules.typing_and_copy_reference.output.ref,
         idx=rules.prepare_bwa_index.output,
     output:

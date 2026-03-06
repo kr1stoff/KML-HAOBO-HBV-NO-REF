@@ -28,7 +28,8 @@ rule typing_bwa_mem:
     input:
         fq1=rules.seqtk_sample_50k.output,
         fq2=rules.seqtk_sample_50k_r2.output,
-        ref=config["database"]["ref"],
+        # 预先 bwa index 建好索引
+        ref=f"{workflow.basedir}/assets/sequences/D00330.1.fasta",
     output:
         temp("typing/{sample}.sam"),
     benchmark:
@@ -64,7 +65,7 @@ rule typing_samtools_sort_and_index:
 rule typing_bedtools_lowcov_mask:
     input:
         bam=rules.typing_bwa_mem.output,
-        ref=config["database"]["ref"],
+        ref=f"{workflow.basedir}/assets/sequences/D00330.1.fasta",
     output:
         genomecov="typing/{sample}.genomecov.bed",
         lowcov="typing/{sample}.lowcov.bed",
@@ -90,7 +91,7 @@ rule typing_bcftools_concensus:
     input:
         bam=rules.typing_samtools_sort_and_index.output.bam,
         bai=rules.typing_samtools_sort_and_index.output.bai,
-        ref=config["database"]["ref"],
+        ref=f"{workflow.basedir}/assets/sequences/D00330.1.fasta",
         mask=rules.typing_bedtools_lowcov_mask.output.mask,
         lowcov=rules.typing_bedtools_lowcov_mask.output.lowcov,
     output:
@@ -113,7 +114,8 @@ rule typing_bcftools_concensus:
 rule typing_blastn:
     input:
         consensus=rules.typing_bcftools_concensus.output.consensus,
-        blastn=config["database"]["blastn"],
+        # 预先使用 makeblastdb 建好 BLAST 数据库
+        blastn=f"{workflow.basedir}/assets/blastn/HBV_pan_reference.fasta",
     output:
         "typing/{sample}.blastn.txt",
     log:

@@ -14,15 +14,6 @@ conda:
   vt: basic2
   freebayes: basic2
 
-# TODO 直接用相对路径可不可以
-database:
-  # bwa index 建库
-  ref: /data/mengxf/GitHub/KML-HAOBO-HBV-NO-REF/wf-hb-hbv-no-ref/assets/sequences/D00330.1.fasta
-  # makeblastdb 建库
-  blastn: /data/mengxf/GitHub/KML-HAOBO-HBV-NO-REF/wf-hb-hbv-no-ref/assets/blastn/HBV_pan_reference.fasta
-  primer_fa: /data/mengxf/GitHub/KML-HAOBO-HBV-NO-REF/wf-hb-hbv-no-ref/assets/primer.fasta
-  known_sites: /data/mengxf/GitHub/KML-HAOBO-HBV-NO-REF/wf-hb-hbv-no-ref/assets/known_sites.csv
-
 threads:
   low: 4
   medium: 8
