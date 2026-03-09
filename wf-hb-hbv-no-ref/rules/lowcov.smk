@@ -7,7 +7,7 @@ use rule typing_bedtools_lowcov_mask as lowcov_mask with:
         lowcov="lowcov/{sample}.lowcov.bed",
         mask="lowcov/{sample}.masked.fa",
     log:
-        ".log/lowcov/{sample}.lowcov_mask.log"
+        ".log/lowcov/{sample}.lowcov_mask.log",
     benchmark:
         ".log/lowcov/{sample}.lowcov_mask.bm"
     params:

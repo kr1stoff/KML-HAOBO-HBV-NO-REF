@@ -12,7 +12,7 @@ rule freebayes:
         ".log/variant/{sample}.freebayes.bm"
     # resources 中 freebayes_jobs 控制 freebayes 的并行线程数，减小内存压力
     resources:
-        freebayes_jobs=1
+        freebayes_jobs=1,
     # [20251014] 浩博建议的参数
     params:
         (

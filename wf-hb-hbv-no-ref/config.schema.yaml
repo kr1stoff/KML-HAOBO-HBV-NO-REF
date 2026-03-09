@@ -77,6 +77,3 @@ properties:
           F: string
           G: string
           H: string
-      sequences_dir:
-        type: string
-        description: 序列目录路径

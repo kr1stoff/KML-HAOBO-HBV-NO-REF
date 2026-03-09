@@ -2,7 +2,7 @@ rule seqtk_sample_50k:
     input:
         rules.fastp.output.fq1,
     output:
-        temp("{sample}.50k.1.fq"),
+        temp("typing/{sample}.50k.1.fq"),
     log:
         ".log/typing/{sample}.seqtk_sample_50k.log",
     benchmark:
@@ -17,7 +17,7 @@ use rule seqtk_sample_50k as seqtk_sample_50k_r2 with:
     input:
         rules.fastp.output.fq2,
     output:
-        temp("{sample}.50k.2.fq"),
+        temp("typing/{sample}.50k.2.fq"),
     log:
         ".log/typing/{sample}.seqtk_sample_50k_r2.log",
     benchmark:
@@ -148,7 +148,7 @@ rule typing_and_copy_reference:
         config["conda"]["python"]
     params:
         acc_type_dict=config["custom"]["accession_type"],
-        seq_dir=config["custom"]["sequences_dir"],
+        seq_dir=f"{workflow.basedir}/assets/sequences",
     script:
         "../scripts/type_and_copy_ref.py"
 

@@ -20,8 +20,13 @@ df = pd.read_table(blastn_res, sep="\t", header=None,
 # 使用 pident * length 作为排序的指标，选择最高的作为样本分型
 df['pident_length_product'] = df['pident'] * df['length']
 df.sort_values(by='pident_length_product', ascending=False, inplace=True)
-top1_acc = df.iloc[0]['sseqid']
-top1_type = acc_type_dict[top1_acc]
+# 如果 df 为空, 分型写NA, 后续参考使用默认B型(D00330.1)
+if df.empty:
+    top1_acc = 'D00330.1'
+    top1_type = 'NA'
+else:
+    top1_acc = df.iloc[0]['sseqid']
+    top1_type = acc_type_dict[top1_acc]
 
 # 输出样本分型
 with open(hbv_type, "w") as f:
