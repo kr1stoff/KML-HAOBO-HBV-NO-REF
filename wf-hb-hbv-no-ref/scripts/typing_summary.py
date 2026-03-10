@@ -11,5 +11,5 @@ for type_file in snakemake.input:
     hbv_type = open(type_file, "r").read().strip()
     outitems.append([sample, hbv_type])
 
-df = pd.DataFrame(outitems, columns=["Sample", "HBV_Type"])
+df = pd.DataFrame(outitems, columns=["Sample", "HBV_Genoype"])
 df.to_csv(snakemake.output[0], index=False, sep="\t")
